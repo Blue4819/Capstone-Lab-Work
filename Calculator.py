@@ -9,7 +9,7 @@ from kivy.properties import StringProperty
 KV = '''
 BoxLayout:
     orientation: 'vertical'
-    output_text: ''
+    output_text: "Answer"
     
     MDTextField:
         id: input_field
@@ -22,7 +22,7 @@ BoxLayout:
         size_hint: (1, 0.2)
     
     MDLabel:
-        text: root.output_text
+        text: app.output_text
         halign: 'center'
         size_hint: (1, 0.1)
     
@@ -124,13 +124,10 @@ class CalculatorApp(MDApp):
         try:
             result = self.evaluate_expression(expression)
             self.output_text = str(result)
-            except ZeroDivisionError:
+        except ZeroDivisionError:
             self.output_text = "Error: Division by zero"
-            except Exception as e:
+        except Exception as e:
             self.output_text = "Error: " + str(e)
-
-    
-
 
     def evaluate_expression(self, expression):
         operators = {'+': (lambda x, y: x + y), '-': (lambda x, y: x - y),
