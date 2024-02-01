@@ -116,17 +116,21 @@ class CalculatorApp(MDApp):
         self.output_text = ''
     
     def calculate(self):
-        expression = self.root.ids.input_field.text
-
+        expression = self.root.ids.input_field.text.strip()
+        
+        if not expression:
+            self.output_text = "Error: Enter an expression"
+            return
         try:
             result = self.evaluate_expression(expression)
-            btn = MDFlatButton(text='Continue', on_release=self.close_dialogue)
-            self.dialog = MDDialog(title="Answer", text=str(result), size_hint=(0.7, 0.2), buttons=[btn])
-            self.dialog.open()
-        except ZeroDivisionError:
+            self.output_text = str(result)
+            except ZeroDivisionError:
             self.output_text = "Error: Division by zero"
-        except Exception as e:
+            except Exception as e:
             self.output_text = "Error: " + str(e)
+
+    
+
 
     def evaluate_expression(self, expression):
         operators = {'+': (lambda x, y: x + y), '-': (lambda x, y: x - y),
