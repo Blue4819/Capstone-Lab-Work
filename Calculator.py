@@ -117,18 +117,47 @@ class CalculatorApp(MDApp):
     
     def calculate(self):
         expression = self.root.ids.input_field.text
-        result = 0
 
         try:
-            #Calculate  the expression and display it through self.output_text
-            result = 0
+            result = self.evaluate_expression(expression)
             btn = MDFlatButton(text='Continue', on_release=self.close_dialogue)
-            self.dialog = MDDialog(title="Answer", text= str(result),size_hint=(0.7, 0.2),buttons=[btn])
+            self.dialog = MDDialog(title="Answer", text=str(result), size_hint=(0.7, 0.2), buttons=[btn])
             self.dialog.open()
+        except ZeroDivisionError:
+            self.output_text = "Error: Division by zero"
         except Exception as e:
             self.output_text = "Error: " + str(e)
 
+    def evaluate_expression(self, expression):
+        operators = {'+': (lambda x, y: x + y), '-': (lambda x, y: x - y),
+                     '*': (lambda x, y: x * y), '/': (lambda x, y: x / y)}
+        tokens = expression.split()
+        stack = []
+
+        for i, token in enumerate(tokens):
+            if token == '-' and (i == 0 or tokens[i - 1] in operators):
+                # Handle negative numbers
+                continue
+
+            if token.isnumeric() or (token[0] == '-' and token[1:].isnumeric()):
+                stack.append(float(token))
+            elif token in operators:
+                if len(stack) < 2:
+                    raise ValueError("Invalid expression")
+                operand2 = stack.pop()
+                operand1 = stack.pop()
+                operation = operators[token]
+                result = operation(operand1, operand2)
+                stack.append(result)
+            else:
+                raise ValueError("Invalid token: {}".format(token))
+
+        if len(stack) != 1:
+            raise ValueError("Invalid expression")
+        return stack[0]
+
     def close_dialogue(self, obj):
+        self.root.ids.input_field.text = ''
         self.output_text = ''
         self.dialog.dismiss()
 
