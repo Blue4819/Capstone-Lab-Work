@@ -99,6 +99,10 @@ BoxLayout:
         MDRectangleFlatButton:
             text: "="
             on_press: app.calculate()
+
+        MDRectangleFlatButton:
+            text: "^"
+            on_press: app.append_to_input("^")
 '''
 
 class CalculatorApp(MDApp):
@@ -121,9 +125,9 @@ class CalculatorApp(MDApp):
 
         try:
             #Calculate  the expression and display it through self.output_text
-            result = 0
+            result = eval(expression.replace("^", "**"))
             btn = MDFlatButton(text='Continue', on_release=self.close_dialogue)
-            self.dialog = MDDialog(title="Answer", text= str(result),size_hint=(0.7, 0.2),buttons=[btn])
+            self.dialog = MDDialog(title="Answer", text=str(result), size_hint=(0.7, 0.2), buttons=[btn])
             self.dialog.open()
         except Exception as e:
             self.output_text = "Error: " + str(e)
