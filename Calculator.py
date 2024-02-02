@@ -1,3 +1,4 @@
+import math
 from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivymd.uix.button import MDIconButton, MDFloatingActionButton
@@ -147,17 +148,29 @@ class CalculatorApp(MDApp):
     def clear_input(self):
         self.root.ids.input_field.text = ''
         self.output_text = ''
-    
+
     def calculate(self):
         expression = self.root.ids.input_field.text
         result = 0
 
         try:
-            #Calculate  the expression and display it through self.output_text
-            result = eval(expression.replace("^", "**"))
+            # Replace '^' with '**' for exponentiation
+            expression = expression.replace("^", "**")
+
+            # Evaluate square root, logarithm, and trigonometric functions
+            expression = expression.replace("sqrt(", "math.sqrt(")
+            expression = expression.replace("log(", "math.log10(")
+            expression = expression.replace("sin(", "math.sin(math.radians(")
+            expression = expression.replace("cos(", "math.cos(math.radians(")
+            expression = expression.replace("tan(", "math.tan(math.radians(")
+
+            # Calculate the expression and display the result through self.output_text
+            result = eval(expression)
+
             btn = MDFlatButton(text='Continue', on_release=self.close_dialogue)
             self.dialog = MDDialog(title="Answer", text=str(result), size_hint=(0.7, 0.2), buttons=[btn])
             self.dialog.open()
+
         except Exception as e:
             self.output_text = "Error: " + str(e)
 
