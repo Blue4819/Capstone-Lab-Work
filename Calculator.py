@@ -43,6 +43,14 @@ BoxLayout:
         MDRectangleFlatButton:
             text: "9"
             on_press: app.append_to_input("9")
+            
+        MDRectangleFlatButton:
+            text: "sqrt("
+            on_press: app.append_to_input("sqrt(")
+        
+        MDRectangleFlatButton:
+            text: "log("
+            on_press: app.append_to_input("log(")
         
         MDRectangleFlatButton:
             text: "/"
@@ -103,6 +111,18 @@ BoxLayout:
         MDRectangleFlatButton:
             text: "^"
             on_press: app.append_to_input("^")
+
+        MDRectangleFlatButton:
+            text: "sin("
+            on_press: app.append_to_input("sin(")
+
+        MDRectangleFlatButton:
+            text: "cos("
+            on_press: app.append_to_input("cos(")
+
+        MDRectangleFlatButton:
+            text: "tan("
+            on_press: app.append_to_input("tan(")
 
         MDRectangleFlatButton:
             text: "("
