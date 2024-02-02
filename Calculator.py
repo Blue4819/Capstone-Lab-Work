@@ -28,7 +28,7 @@ BoxLayout:
         size_hint: (1, 0.1)
     
     GridLayout:
-        cols: 4
+        cols: 5
         spacing: "10dp"
         padding: "10dp"
         size_hint: (1, 0.7)
@@ -53,9 +53,6 @@ BoxLayout:
             text: "log("
             on_press: app.append_to_input("log(")
         
-        MDRectangleFlatButton:
-            text: "/"
-            on_press: app.append_to_input("/")
         
         MDRectangleFlatButton:
             text: "4"
@@ -72,6 +69,10 @@ BoxLayout:
         MDRectangleFlatButton:
             text: "*"
             on_press: app.append_to_input("*")
+
+        MDRectangleFlatButton:
+            text: "/"
+            on_press: app.append_to_input("/")
         
         MDRectangleFlatButton:
             text: "1"
@@ -88,6 +89,14 @@ BoxLayout:
         MDRectangleFlatButton:
             text: "-"
             on_press: app.append_to_input("-")
+
+        MDRectangleFlatButton:
+            text: "sin("
+            on_press: app.append_to_input("sin(")
+
+        MDRectangleFlatButton:
+            text: "cos("
+            on_press: app.append_to_input("cos(")
         
         MDRectangleFlatButton:
             text: "0"
@@ -112,14 +121,6 @@ BoxLayout:
         MDRectangleFlatButton:
             text: "^"
             on_press: app.append_to_input("^")
-
-        MDRectangleFlatButton:
-            text: "sin("
-            on_press: app.append_to_input("sin(")
-
-        MDRectangleFlatButton:
-            text: "cos("
-            on_press: app.append_to_input("cos(")
 
         MDRectangleFlatButton:
             text: "tan("
