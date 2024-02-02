@@ -1,3 +1,4 @@
+import math
 from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivymd.uix.button import MDIconButton, MDFloatingActionButton
@@ -27,7 +28,7 @@ BoxLayout:
         size_hint: (1, 0.1)
     
     GridLayout:
-        cols: 4
+        cols: 5
         spacing: "10dp"
         padding: "10dp"
         size_hint: (1, 0.7)
@@ -43,10 +44,15 @@ BoxLayout:
         MDRectangleFlatButton:
             text: "9"
             on_press: app.append_to_input("9")
+            
+        MDRectangleFlatButton:
+            text: "sqrt("
+            on_press: app.append_to_input("sqrt(")
         
         MDRectangleFlatButton:
-            text: "/"
-            on_press: app.append_to_input("/")
+            text: "log("
+            on_press: app.append_to_input("log(")
+        
         
         MDRectangleFlatButton:
             text: "4"
@@ -63,6 +69,10 @@ BoxLayout:
         MDRectangleFlatButton:
             text: "*"
             on_press: app.append_to_input("*")
+
+        MDRectangleFlatButton:
+            text: "/"
+            on_press: app.append_to_input("/")
         
         MDRectangleFlatButton:
             text: "1"
@@ -79,6 +89,14 @@ BoxLayout:
         MDRectangleFlatButton:
             text: "-"
             on_press: app.append_to_input("-")
+
+        MDRectangleFlatButton:
+            text: "sin("
+            on_press: app.append_to_input("sin(")
+
+        MDRectangleFlatButton:
+            text: "cos("
+            on_press: app.append_to_input("cos(")
         
         MDRectangleFlatButton:
             text: "0"
@@ -99,6 +117,23 @@ BoxLayout:
         MDRectangleFlatButton:
             text: "="
             on_press: app.calculate()
+
+        MDRectangleFlatButton:
+            text: "^"
+            on_press: app.append_to_input("^")
+
+        MDRectangleFlatButton:
+            text: "tan("
+            on_press: app.append_to_input("tan(")
+
+        MDRectangleFlatButton:
+            text: "("
+            on_press: app.append_to_input("(")
+
+        MDRectangleFlatButton:
+            text: ")"
+            on_press: app.append_to_input(")")
+            
 '''
 
 class CalculatorApp(MDApp):
@@ -114,7 +149,7 @@ class CalculatorApp(MDApp):
     def clear_input(self):
         self.root.ids.input_field.text = ''
         self.output_text = ''
-    
+
     def calculate(self):
         expression = self.root.ids.input_field.text.strip()
         
@@ -126,6 +161,24 @@ class CalculatorApp(MDApp):
             self.output_text = str(result)
         except ZeroDivisionError:
             self.output_text = "Error: Division by zero"
+            # Replace '^' with '**' for exponentiation
+            expression = expression.replace("^", "**")
+
+            # Evaluate square root, logarithm, and trigonometric functions
+            expression = expression.replace("sqrt(", "math.sqrt(")
+            expression = expression.replace("log(", "math.log10(")
+            expression = expression.replace("sin(", "math.sin(math.radians(")
+            expression = expression.replace("cos(", "math.cos(math.radians(")
+            expression = expression.replace("tan(", "math.tan(math.radians(")
+
+            # Calculate the expression and display the result through self.output_text
+            result = eval(expression)
+
+            btn = MDFlatButton(text='Continue', on_release=self.close_dialogue)
+            self.dialog = MDDialog(title="Answer", text=str(result), size_hint=(0.7, 0.2), buttons=[btn])
+            self.dialog.open()
+
+     main
         except Exception as e:
             self.output_text = "Error: " + str(e)
 
