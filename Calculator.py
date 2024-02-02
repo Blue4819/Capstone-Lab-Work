@@ -103,6 +103,15 @@ BoxLayout:
         MDRectangleFlatButton:
             text: "^"
             on_press: app.append_to_input("^")
+
+        MDRectangleFlatButton:
+            text: "("
+            on_press: app.append_to_input("(")
+
+        MDRectangleFlatButton:
+            text: ")"
+            on_press: app.append_to_input(")")
+            
 '''
 
 class CalculatorApp(MDApp):
